@@ -8,24 +8,20 @@ import (
 )
 
 func pingHandler(w http.ResponseWriter, r *http.Request) {
-	// Ensure it's a GET request
 	if r.Method != "GET" {
 		http.Error(w, "Only GET is allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	// Set up the Rockstar script execution
-	scriptPath := filepath.Join("rocks", "ping.rock")
-	cmd := exec.Command("rockstar", scriptPath)
+	scriptPath := filepath.Join("rocks", "pong.rock")
+	cmd := exec.Command("./bin/chirp", scriptPath)
 
-	// Execute the script and capture the output
 	output, err := cmd.Output()
 	if err != nil {
 		http.Error(w, "Error executing script", http.StatusInternalServerError)
 		return
 	}
 
-	// Write the output to the response
 	w.Write(output)
 }
 
